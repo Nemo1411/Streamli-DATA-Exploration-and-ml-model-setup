@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LogisticRegression
@@ -46,3 +46,24 @@ def train_model(model, X, y):
     else:
         st.write("Erreur quadratique moyenne :", mean_squared_error(y_test, y_pred))
     return model
+def save_model(model):
+    with open("trained_model.pkl", "wb") as f:
+        pickle.dump(model, f)
+    st.success("Modèle sauvegardé avec succès !")
+
+def main():
+    st.title("Application d'entraînement de modèles de Machine Learning")
+    df = load_data()
+    if df is not None:
+        features, target = select_features_target(df)
+        if features and target:
+            X = df[features]
+            y = df[target]
+            model = select_model(y)
+            if st.button("Entraîner le modèle"):
+                trained_model = train_model(model, X, y)
+                if st.button("Sauvegarder le modèle"):
+                    save_model(trained_model)
+
+if __name__ == "__main__":
+    main()
