@@ -67,10 +67,5 @@ Accédez à votre application via l'URL fournie par Azure :
 https://<nom-de-l-app>.azurewebsites.net
 ```
 
-## Auteur
-Développé par [Votre Nom].
-
-## Licence
-Ce projet est sous licence MIT.
 
 
