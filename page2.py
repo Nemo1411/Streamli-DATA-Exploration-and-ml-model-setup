@@ -12,3 +12,7 @@ def load_data() -> pd.DataFrame | None:
         return df
     return None
 
+def select_features_target(df: pd.DataFrame) -> tuple[list[str], str]:
+    features = st.multiselect("Sélectionnez les features", df.columns.tolist())
+    target = st.selectbox("Sélectionnez la variable cible", df.columns.tolist())
+    return features, target
