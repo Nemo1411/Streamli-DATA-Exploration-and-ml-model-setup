@@ -16,3 +16,27 @@ def select_features_target(df: pd.DataFrame) -> tuple[list[str], str]:
     features = st.multiselect("Sélectionnez les features", df.columns.tolist())
     target = st.selectbox("Sélectionnez la variable cible", df.columns.tolist())
     return features, target
+
+def select_model(y):
+    model_name = st.selectbox("Choisissez un modèle", ["Random Forest", "Logistic Regression", "SVM"])
+    if model_name == "Random Forest":
+        n_estimators = st.slider("Nombre d'arbres", 10, 200, 100)
+        model = RandomForestClassifier(n_estimators=n_estimators) if y.nunique() < 10 else RandomForestRegressor(n_estimators=n_estimators)
+    elif model_name == "Logistic Regression":
+        C = st.slider("Paramètre C", 0.01, 10.0, 1.0)
+        model = LogisticRegression(C=C, max_iter=1000)
+    elif model_name == "SVM":
+        kernel = st.selectbox("Type de noyau", ["linear", "rbf", "poly"])
+        model = SVC(kernel=kernel)
+    return model
+
+def train_model(model, X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    
+    if y.nunique() < 10:
+        st.write("Score de précision :", accuracy_score(y_test, y_pred))
+    else:
+        st.write("Erreur quadratique moyenne :", mean_squared_error(y_test, y_pred))
+    return model
