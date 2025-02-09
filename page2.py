@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, mean_squared_error
+
 st.title("Page 2")
 st.write("Bienvenue sur la Page 2. Cette page est réservée aux utilisateurs avec le rôle 2.")
 
